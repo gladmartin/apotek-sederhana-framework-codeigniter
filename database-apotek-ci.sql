@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Jul 2019 pada 18.34
+-- Waktu pembuatan: 05 Jul 2019 pada 08.53
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.3.1
 
@@ -55,6 +55,21 @@ CREATE TABLE `detail_transaksi` (
   `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Trigger `detail_transaksi`
+--
+DELIMITER $$
+CREATE TRIGGER `kurangi_stok_obat` BEFORE INSERT ON `detail_transaksi` FOR EACH ROW BEGIN
+	DECLARE stok_sisa INT;
+    SELECT stok INTO stok_sisa FROM obat WHERE kode = NEW.kode_obat;
+    IF stok_sisa < NEW.jumlah THEN
+    	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Stok tidak mencukupi';
+    END IF;
+	UPDATE obat SET stok = stok - NEW.jumlah WHERE kode = NEW.kode_obat;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -66,7 +81,7 @@ CREATE TABLE `obat` (
   `supplier_id` int(11) NOT NULL,
   `nama_obat` varchar(255) NOT NULL,
   `produsen` varchar(100) NOT NULL,
-  `stok` int(11) NOT NULL,
+  `stok` int(11) UNSIGNED NOT NULL,
   `foto` varchar(255) NOT NULL,
   `harga` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -76,8 +91,8 @@ CREATE TABLE `obat` (
 --
 
 INSERT INTO `obat` (`kode`, `supplier_id`, `nama_obat`, `produsen`, `stok`, `foto`, `harga`) VALUES
-('BTDN', 1, 'Bethadine', 'Ovo', 12, '2019-07-04-11-23-20_5d1e27f85dc0b.jpg', 10000),
-('ENTR01', 3, 'Entro Stop', 'Elevina', 20, '2019-07-04-11-22-33_5d1e27c92eb50.jpg', 5000),
+('BTDN', 1, 'Bethadine', 'Ovo', 2, '2019-07-04-11-23-20_5d1e27f85dc0b.jpg', 10000),
+('ENTR01', 3, 'Entro Stop', 'Elevina', 15, '2019-07-04-11-22-33_5d1e27c92eb50.jpg', 5000),
 ('INST', 1, 'Insto', 'Limo', 12, '2019-07-04-11-27-04_5d1e28d83a4df.jpg', 15000),
 ('SLDX', 1, 'Siladex', 'Limo', 20, '2019-07-04-11-26-06_5d1e289e36909.jpg', 15000);
 
@@ -168,7 +183,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
@@ -180,7 +195,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
