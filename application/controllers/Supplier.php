@@ -11,6 +11,7 @@ class Supplier extends CI_Controller {
 
     public function index()
 	{
+        // membuat komen
         $this->form_validation->set_rules('nama', 'Nama Supplier', 'required|trim');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
         $this->form_validation->set_rules('kota', 'Kota', 'required|trim');
