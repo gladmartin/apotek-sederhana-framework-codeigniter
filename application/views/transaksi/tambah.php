@@ -30,7 +30,7 @@
                     <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
                     <div class="form-group">
                         <label for="nama-pembeli">Nama Pembeli</label>
-                        <input type="text" required name="nama_pembeli" id="nama-pembeli" class="form-control">
+                        <input type="text" value="<?php echo set_value('nama_pembeli') ?>" required name="nama_pembeli" id="nama-pembeli" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="obat">Obat</label>

@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Transaksi extends CI_Controller {
 
+    private $array_obat = [];
+
     public function __construct()
     {
         parent::__construct();
@@ -25,8 +27,8 @@ class Transaksi extends CI_Controller {
     {
         $data['title'] = 'Tambah transaksi';
         $data['main_view'] = 'transaksi/tambah';
-        $this->form_validation->set_rules('nama_pembeli', 'Nama Pembeli', 'required|trim');
-        $this->form_validation->set_rules('data_obat', 'Obat', 'required');
+        $this->form_validation->set_rules('nama_pembeli', 'Nama Pembeli', 'required|trim|alpha_numeric_spaces');
+        $this->form_validation->set_rules('data_obat', 'Obat', 'callback__data_obat_check');
         if ($this->form_validation->run() == FALSE)
         {
             $this->load->model('Obat_model');
@@ -55,6 +57,31 @@ class Transaksi extends CI_Controller {
             $this->session->set_flashdata('info', $msg);
             redirect('transaksi');
         }
+    }
+
+    public function _data_obat_check($value)
+    {
+        $this->array_obat = json_decode($value);
+        if (empty($this->array_obat)) 
+        {
+            $this->form_validation->set_message('_data_obat_check', 'The {field} can not be empty');
+            return false;
+        }
+        foreach ($this->array_obat as $ob) 
+        {
+            $obat = $this->db->get_where('obat', ['kode' => $ob->kode])->row();
+            if (! $obat) 
+            {
+                $this->form_validation->set_message('_data_obat_check', 'Data {field} tidak ditemukan');
+                return false;
+            }
+            if ((int)$obat->stok < $ob->jumlah) 
+            {
+                $this->form_validation->set_message('_data_obat_check', "Gagal!, Stok {$obat->nama_obat} tersisa {$obat->stok} anda menginput {$ob->jumlah}");
+                return false;
+            }
+        }
+        return true;
     }
 
     public function hapus($id = null)
