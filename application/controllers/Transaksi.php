@@ -27,37 +27,9 @@ class Transaksi extends MY_Controller {
     {
         $data['title'] = 'Tambah transaksi';
         $data['main_view'] = 'transaksi/tambah';
-        $this->form_validation->set_rules('nama_pembeli', 'Nama Pembeli', 'required|trim|alpha_numeric_spaces');
-        $this->form_validation->set_rules('data_obat', 'Obat', 'callback__data_obat_check');
-        if ($this->form_validation->run() == FALSE)
-        {
-            $this->load->model('Obat_model');
-            $data['obat'] = $this->Obat_model->get_all();
-            $this->load->view('template', $data);
-        }
-        else
-        {
-            $data_transaksi = [
-                'tgl' => date('Y-m-d h:i:s'),
-                'nama_pembeli' => $this->input->post('nama_pembeli'),
-                'admin_id' => $this->session->userdata('user_id'),
-            ];
-            $tambah = $this->Transaksi_model->create($data_transaksi);
-            $transaksi_id = $this->db->insert_id();
-
-            $detail_transaksi = [];
-            foreach ($this->array_obat as $key => $ob) {
-                $detail_transaksi[$key] = [
-                    'transaksi_id' => $transaksi_id,
-                    'kode_obat' => $ob->kode,
-                    'jumlah' => $ob->jumlah,
-                ];
-            }
-            $this->Transaksi_model->create_detail($detail_transaksi);
-            $msg = $tambah ? 'Berhasil ditambah' : 'Gagal ditambah';
-            $this->session->set_flashdata('info', $msg);
-            redirect('transaksi');
-        }
+        $this->load->model('Obat_model');
+        $data['obat'] = $this->Obat_model->get_all();
+        $this->load->view('template', $data);
     }
 
     public function store()
