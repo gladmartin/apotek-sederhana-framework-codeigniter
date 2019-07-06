@@ -34,18 +34,24 @@
                     </div>
                     <div class="form-group">
                         <label for="obat">Obat</label>
-                        <select id="obat" class="form-control">
-                            <option disabled selected>Pilih obat</option>
-                            <?php foreach($obat->result() as $ob) : ?>
-                            <option value="<?php echo $ob->kode; ?>"><?php echo $ob->nama_obat; ?></option>
-                            <?php endforeach ?>
-                        </select>
+                        <div class="input-group">
+                            <select id="obat" class="form-control">
+                                <option disabled selected>Pilih obat</option>
+                                <?php foreach($obat->result() as $ob) : ?>
+                                <option value="<?php echo $ob->kode; ?>"><?php echo $ob->nama_obat; ?></option>
+                                <?php endforeach ?>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary add-item-obat" type="button" id="button-addon1">Tambah</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
-                            <tr>
-                                <th width="50"><button title="hapus semua item" class="btn btn-sm btn-circle btn-danger btn-remove-item" type="button"><i class="fa fa-trash"></i></button></th>
+                            <tr class="bg-success text-white">
+                                <th width="50">
+                                    <button title="hapus semua item" class="btn btn-sm btn-circle btn-danger btn-remove-item" type="button"><i class="fa fa-trash"></i></button></th>
                                 <th>Kode Obat</th>
                                 <th>Obat</th>
                                 <th>Foto</th>

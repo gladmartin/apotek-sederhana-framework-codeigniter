@@ -239,8 +239,9 @@
                 $('#ubahModal #nama-admin').val(nama);
             })
 		})
-        $('.form-obat #obat').on('change', function(e) {
-            let kode = $(this).val();
+        $('.form-obat .add-item-obat').on('click', function(e) {
+            let kode = $('.form-obat #obat').val();
+            if (! kode) return alert('Kode obat tidak valid');
             if (arrayObat.filter(item => item.kode == kode).length > 0) return alert('Data Obat Sudah Dipilih');
             $.getJSON(`../obat/getAjax/${kode}`, function(data, status, xhr) {
                 let html = `
