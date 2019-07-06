@@ -60,6 +60,46 @@ class Transaksi extends MY_Controller {
         }
     }
 
+    public function store()
+    {
+        $this->form_validation->set_rules('nama_pembeli', 'Nama Pembeli', 'required|trim|alpha_numeric_spaces');
+        $this->form_validation->set_rules('data_obat', 'Obat', 'callback__data_obat_check');
+        if ($this->form_validation->run() == FALSE)
+        {
+            $response = [
+                'status' => false,
+                'message' => 'form error',
+                'error' => validation_errors('<div class="alert alert-danger">', '</div>'),
+            ];
+            echo json_encode($response);
+            return;
+        }
+        $data_transaksi = [
+            'tgl' => date('Y-m-d h:i:s'),
+            'nama_pembeli' => $this->input->post('nama_pembeli'),
+            'admin_id' => $this->session->userdata('user_id'),
+        ];
+        $tambah = $this->Transaksi_model->create($data_transaksi);
+        $transaksi_id = $this->db->insert_id();
+
+        $detail_transaksi = [];
+        foreach ($this->array_obat as $key => $ob) {
+            $detail_transaksi[$key] = [
+                'transaksi_id' => $transaksi_id,
+                'kode_obat' => $ob->kode,
+                'jumlah' => $ob->jumlah,
+            ];
+        }
+        $this->Transaksi_model->create_detail($detail_transaksi);
+        $msg = $tambah ? 'Berhasil ditambah' : 'Gagal ditambah';
+        $response = [
+            'status' => true,
+            'message' => $msg,
+        ];
+        echo json_encode($response);
+        return;
+    }
+
     public function _data_obat_check($value)
     {
         $this->array_obat = json_decode($value);

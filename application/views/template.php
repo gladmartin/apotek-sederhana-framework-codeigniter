@@ -202,15 +202,7 @@
 	<!-- Custom scripts for all pages-->
 	<script src="<?php echo base_url('assets/admin/') ?>js/sb-admin-2.min.js"></script>
 	<script>
-        let arrayObat = [];
-        $('.form-obat table .btn-remove-item').on('click', function() {
-            if (arrayObat.length == 0) return alert('Belum ada item obat dipilih!');
-            arrayObat = [];
-            $('.form-obat table tbody').html('');
-            $('.form-obat #data_obat').val('');
-            countGrandTotal();
-        })
-		$('.btn-ubah-sup').on('click', function (e) {
+        $('.btn-ubah-sup').on('click', function (e) {
 			e.preventDefault();
 			let id = $(this).data('id');
 			$('#ubahModal').modal('show');
@@ -239,6 +231,14 @@
                 $('#ubahModal #nama-admin').val(nama);
             })
 		})
+        let arrayObat = [];
+        $('.form-obat table .btn-remove-item').on('click', function() {
+            if (arrayObat.length == 0) return alert('Belum ada item obat dipilih!');
+            arrayObat = [];
+            $('.form-obat table tbody').html('');
+            $('.form-obat #data_obat').val('');
+            countGrandTotal();
+        })
         $('.form-obat .add-item-obat').on('click', function(e) {
             let kode = $('.form-obat #obat').val();
             if (! kode) return alert('Kode obat tidak valid');
@@ -297,6 +297,23 @@
             }
             $('.form-obat .grand-total').html(`<h4>Rp.${grand_total}</h4>`)
         }
+        $('.form-obat').on('submit', function(e) {
+            e.preventDefault();
+            $.post('store', $(this).serialize(), function(data, status, xhr) {
+                if (! data.status) {
+                    $('.error-form').html(data.error);
+                    let cardOffset = $('#card-transaksi').offset();
+                    let bodyOffset = $(document).scrollTop();
+                    if (cardOffset.top <= bodyOffset) {
+                        $('html, body').animate({
+                            scrollTop: cardOffset.top,
+                        }, 1000)
+                    }
+                    return;
+                }
+                document.location.href = '../transaksi';
+            }, 'json');
+        })
     </script>
     <script src="<?php echo base_url('assets/admin/') ?>vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="<?php echo base_url('assets/admin/') ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
