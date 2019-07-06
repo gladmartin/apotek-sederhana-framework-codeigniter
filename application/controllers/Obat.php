@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Obat extends CI_Controller {
+class Obat extends MY_Controller {
 
     public function __construct()
     {
