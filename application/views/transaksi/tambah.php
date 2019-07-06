@@ -6,14 +6,14 @@
     <div class="col-lg-5">
         <div class="card shadow mb-4">
             <div class="card-body">
-                <table class="table table-bordered">
+                <table class="table table-borderless">
                     <tr>
                         <th>Admin</th>
-                        <td><?php echo($this->session->userdata('nama')); ?></td>
+                        <td> : <?php echo($this->session->userdata('nama')); ?></td>
                     </tr>
                     <tr>
                         <th>Tanggal penjualan</th>
-                        <td><?php echo date('Y-m-d h:i:s'); ?></td>
+                        <td> : <?php echo date('Y-m-d h:i:s'); ?></td>
                     </tr>
                 </table>
             </div>
@@ -47,20 +47,25 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
+                    <table class="table">
+                        <thead class="thead-success">
                             <tr class="bg-success text-white">
-                                <th width="50">
-                                    <button title="hapus semua item" class="btn btn-sm btn-circle btn-danger btn-remove-item" type="button"><i class="fa fa-trash"></i></button></th>
-                                <th>Kode Obat</th>
-                                <th>Obat</th>
-                                <th>Foto</th>
-                                <th>Harga @</th>
-                                <th>Jumlah</th>
-                                <th>Total harga</th>
+                                <th scope="col" width="50">
+                                    <button title="hapus semua item" class="btn btn-sm btn-circle btn-danger btn-remove-item" type="button"><i class="fa fa-trash"></i></button>
+                                </th>
+                                <th scope="col">Kode Obat</th>
+                                <th scope="col">Obat</th>
+                                <th scope="col">Foto</th>
+                                <th scope="col">Harga @</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col">Total harga</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <tr>
+                                <td colspan="7" class="item-kosong small" align="center">Belum ada item obat yang ditambahkan.</td>
+                            </tr>
+                        </tbody>
                         <tfoot style="display:none">
                             <tr class="bg-light">
                                 <th colspan="6" class="text-center">Grand Total</th>

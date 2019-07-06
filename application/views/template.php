@@ -243,6 +243,7 @@
             let kode = $('.form-obat #obat').val();
             if (! kode) return alert('Kode obat tidak valid');
             if (arrayObat.filter(item => item.kode == kode).length > 0) return alert('Data Obat Sudah Dipilih');
+            if (arrayObat.length == 0) $('.form-obat table tbody .item-kosong').hide();
             $.getJSON(`../obat/getAjax/${kode}`, function(data, status, xhr) {
                 let html = `
                 <tr id="${data.kode}">
@@ -292,6 +293,7 @@
             arrayObat.forEach(val => grand_total = grand_total + parseInt(val.total));
             if (grand_total <= 0) {
                 $('.form-obat table tfoot').hide();
+                $('.form-obat table tbody .item-kosong').show();
             }
             $('.form-obat .grand-total').html(`<h4>Rp.${grand_total}</h4>`)
         }
