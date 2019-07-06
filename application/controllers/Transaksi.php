@@ -37,7 +37,6 @@ class Transaksi extends MY_Controller {
         }
         else
         {
-            $arrObat = json_decode($this->input->post('data_obat'));
             $data_transaksi = [
                 'tgl' => date('Y-m-d h:i:s'),
                 'nama_pembeli' => $this->input->post('nama_pembeli'),
@@ -45,14 +44,16 @@ class Transaksi extends MY_Controller {
             ];
             $tambah = $this->Transaksi_model->create($data_transaksi);
             $transaksi_id = $this->db->insert_id();
-            foreach ($arrObat as $ob) {
-                $detail_transaksi = [
+
+            $detail_transaksi = [];
+            foreach ($this->array_obat as $key => $ob) {
+                $detail_transaksi[$key] = [
                     'transaksi_id' => $transaksi_id,
                     'kode_obat' => $ob->kode,
                     'jumlah' => $ob->jumlah,
                 ];
-                $this->Transaksi_model->create_detail($detail_transaksi);
             }
+            $this->Transaksi_model->create_detail($detail_transaksi);
             $msg = $tambah ? 'Berhasil ditambah' : 'Gagal ditambah';
             $this->session->set_flashdata('info', $msg);
             redirect('transaksi');

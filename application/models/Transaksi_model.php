@@ -28,7 +28,7 @@ class Transaksi_model extends CI_Model
 
     public function create_detail($data)
     {
-        $this->db->insert('detail_transaksi', $data);
+        $this->db->insert_batch('detail_transaksi', $data);
         return $this->db->affected_rows() > 0 ? true : false;
     }
 
