@@ -62,7 +62,7 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="<?php echo site_url('admin/ubah'); ?>" method="post">
+			<form action="<?php echo site_url('admin'); ?>" method="post">
 				<div class="modal-body">
 					<?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
 					<div class="form-group">
