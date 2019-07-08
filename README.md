@@ -20,7 +20,12 @@ PHP versi 5.6 atau diatasnya lebih di rekomedasikan.
 
 # Cara Penginstalan
 
-Letakkan file hasil downloadan / clone di folder htdocs (jika os windows), kemudian atur penamanan base_url di file config.php sesuaikan dengan nama folder yang dibuat di htdocs.#
+Letakkan file hasil downloadan / clone di folder htdocs (jika os windows), kemudian atur penamanan base_url di file config.php sesuaikan dengan nama folder yang dibuat di htdocs.
+
+# Database
+
+Silahkan buat database baru (namanya terserah), kemudia import file database-apotek-ci.sql,
+lalu sesuaikan config databasenya.
 
 # Login
 
