@@ -17,3 +17,12 @@ Aplikasi ini merupakan tugas mata kuliah pemrograman web semster IV, yang dibang
 # Server Requirements
 
 PHP versi 5.6 atau diatasnya lebih di rekomedasikan.
+
+# Cara Penginstalan
+
+Letakkan file hasil downloadan / clone di folder htdocs (jika os windows), kemudian atur penamanan base_url di file config.php sesuaikan dengan nama folder yang dibuat di htdocs.#
+
+# Login
+
+Username = admin
+Password = 123
