@@ -18,10 +18,9 @@ class Supplier extends MY_Controller {
         $this->form_validation->set_rules('telp', 'Telp', 'required|trim');
         if ($this->form_validation->run() == FALSE)
         {
-            $data['title'] = 'Data supplier';
             $data['supplier'] = $this->Supplier_model->get_all();
-            $data['main_view'] = 'supplier/index';
-            $this->load->view('template', $data);
+            $this->layout->set_title('Data Supplier');
+		    $this->layout->load('template', 'supplier/index', $data);
         }
         else
         {

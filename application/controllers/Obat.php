@@ -11,16 +11,13 @@ class Obat extends MY_Controller {
 
     public function index()
 	{
-        $data['title'] = 'Data obat';
         $data['obat'] = $this->Obat_model->get_all();
-        $data['main_view'] = 'obat/index';
-		$this->load->view('template', $data);
+        $this->layout->set_title('Data obat');
+        return $this->layout->load('template', 'obat/index', $data);
     }
     
     public function tambah()
     {
-        $data['title'] = 'Tambah data obat';
-        $data['main_view'] = 'obat/tambah';
         $this->form_validation->set_rules('kode_obat', 'Kode Obat', 'required|trim|is_unique[obat.kode]');
         $this->form_validation->set_rules('supplier', 'Supplier', 'required|trim');
         $this->form_validation->set_rules('produsen', 'Produsen', 'required|trim');
@@ -35,7 +32,8 @@ class Obat extends MY_Controller {
                 $option_supplier[$sup->id] = $sup->nama;
             }
             $data['supplier'] = $option_supplier;
-            return $this->load->view('template', $data);
+            $this->layout->set_title('Tambah data obat');
+            return $this->layout->load('template', 'obat/tambah', $data);
         }
         $config = [
             'upload_path' => FCPATH . '/assets/img/',
@@ -87,8 +85,6 @@ class Obat extends MY_Controller {
         $this->form_validation->set_rules('stok', 'Stok', 'required|trim|numeric');
         if ($this->form_validation->run() == FALSE) 
         {
-            $data['title'] = 'Ubah data obat';
-            $data['main_view'] = 'obat/ubah';
             $data['obat'] = $this->Obat_model->getByKode($kode);
             $this->load->model('Supplier_model');
             $supplier = $this->Supplier_model->get_all();
@@ -97,7 +93,8 @@ class Obat extends MY_Controller {
                 $option_supplier[$sup->id] = $sup->nama;
             }
             $data['supplier'] = $option_supplier;
-            $this->load->view('template', $data);
+            $this->layout->set_title('Ubah data obat');
+            return $this->layout->load('template', 'obat/ubah', $data);
         } 
         else
         {

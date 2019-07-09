@@ -16,10 +16,9 @@ class Admin extends MY_Controller {
         $this->form_validation->set_rules('password', 'password', 'required|trim');
         if ($this->form_validation->run() == FALSE)
         {
-            $data['title'] = 'Data admin';
             $data['admin'] = $this->Admin_model->get_all();
-            $data['main_view'] = 'admin/index';
-            $this->load->view('template', $data);
+            $this->layout->set_title('Data admin');
+            return $this->layout->load('template', 'admin/index', $data);
         }
         else
         {

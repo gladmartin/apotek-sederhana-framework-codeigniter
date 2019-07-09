@@ -13,23 +13,21 @@ class Transaksi extends MY_Controller {
 
     public function index()
 	{
-        $data['title'] = 'Data transaksi';
         $transaksi = $this->Transaksi_model->get_all()->result();
         foreach ($transaksi as $key => $value) {
             $transaksi[$key]->obat = $this->Transaksi_model->get_obat($value->id)->result();
         }
         $data['transaksi'] = $transaksi;
-        $data['main_view'] = 'transaksi/index';
-		$this->load->view('template', $data);
+        $this->layout->set_title('Data transaksi');
+        return $this->layout->load('template', 'transaksi/index', $data);
     }
     
     public function tambah()
     {
-        $data['title'] = 'Tambah transaksi';
-        $data['main_view'] = 'transaksi/tambah';
         $this->load->model('Obat_model');
         $data['obat'] = $this->Obat_model->get_all();
-        $this->load->view('template', $data);
+        $this->layout->set_title('Tambah transaksi');
+        return $this->layout->load('template', 'transaksi/tambah', $data);
     }
 
     public function store()
