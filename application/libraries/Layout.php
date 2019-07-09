@@ -57,7 +57,7 @@ class Layout {
         {
             if (is_array($css_href))
             {
-                foreach ($css_href as $hrf) {
+                foreach ($css_href as $href) {
                     $this->_css .= "<link rel='stylesheet' href='{$this->asset_url}{$href}'>\n";
                 }
                 return;
