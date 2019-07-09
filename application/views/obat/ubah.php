@@ -11,6 +11,7 @@
                 </div>
                 <div class="card-body">
                     <form action="" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="foto_lama" value="<?php echo $obat->foto ?>">
                         <?php if ($this->session->flashdata('info')) : ?>
                         <div class="alert alert-danger">
                             <?php echo $this->session->flashdata('info'); ?>

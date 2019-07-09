@@ -108,8 +108,25 @@ class Obat extends MY_Controller {
                 'produsen' => $this->input->post('produsen'),
                 'harga' => $this->input->post('harga'),
                 'stok' => $this->input->post('stok'),
-                // 'foto' => $this->upload->data('file_name'),
             ];
+            if ($_FILES['foto']['error'] !== 4) {
+                $config = [
+                    'upload_path' => FCPATH . '/assets/img/',
+                    'allowed_types' => 'gif|jpg|png',
+                    'max_size'  => 2000,
+                    'file_name' => uniqid(date('Y-m-d-h-i-s_')),
+                ];
+                $this->load->library('upload', $config);
+                if (! $this->upload->do_upload('foto')) {
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('info', $error);
+                    return redirect("obat/ubah/{$kode}");
+                }
+                $data_obat['foto'] = $this->upload->data('file_name');
+                $foto_lama = $this->input->post('foto_lama');
+                $path_foto_lama = FCPATH . "/assets/img/{$foto_lama}";
+                if (file_exists($path_foto_lama)) unlink($path_foto_lama);
+            }
             $ubah = $this->Obat_model->update($data_obat, $kode);
             $msg = $ubah ? 'Berhasil diubah' : 'Gagal diubah';
             $this->session->set_flashdata('info', $msg);
